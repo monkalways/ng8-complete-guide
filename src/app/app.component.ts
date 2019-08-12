@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng8-complete-guide';
+  activeMenu = 'recipes';
+
+  onMenuSelected(activeMenu: string) {
+    this.activeMenu = activeMenu;
+  }
 }
