@@ -7,6 +7,7 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 export class RecipeService {
   private recipes: Recipe[] = [
     new Recipe(
+      1,
       'A Test Recipe',
       'This is simply a test',
       'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
@@ -16,6 +17,7 @@ export class RecipeService {
       ]
     ),
     new Recipe(
+      2,
       'Another Test Recipe',
       'This is simply another test',
       'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
@@ -32,6 +34,10 @@ export class RecipeService {
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  getRecipe(id: number) {
+    return this.recipes.find(recipe => recipe.id === id);
   }
 
   sendToShoppingList(ingredients: Ingredient[]) {
