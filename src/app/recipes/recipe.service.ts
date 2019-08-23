@@ -44,4 +44,17 @@ export class RecipeService {
   sendToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
   }
+
+  addRecipe(recipe: Recipe) {
+    recipe.id = this.recipes.length;
+    this.recipes.push(recipe);
+  }
+
+  updateRecipe(recipe: Recipe) {
+    const recipeToUpdate = this.recipes.find(r => r.id === recipe.id );
+    recipeToUpdate.name = recipe.name;
+    recipeToUpdate.imagePath = recipe.imagePath;
+    recipeToUpdate.description = recipe.description;
+    recipeToUpdate.ingredients = recipe.ingredients.slice();
+  }
 }
