@@ -6,35 +6,20 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
-  private recipes: Recipe[] = [
-    new Recipe(
-      1,
-      'A Test Recipe',
-      'This is simply a test',
-      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
-      [
-        new Ingredient('Pepper', 2),
-        new Ingredient('Egg', 5)
-      ]
-    ),
-    new Recipe(
-      2,
-      'Another Test Recipe',
-      'This is simply another test',
-      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
-      [
-        new Ingredient('Tomato', 1),
-        new Ingredient('Banana', 2)
-      ]
-    ),
-  ];
+  private recipes: Recipe[] = [];
 
+  recipesChanged = new Subject<Recipe[]>();
   recipeSelected = new Subject<Recipe>();
 
   constructor(private shoppingListService: ShoppingListService) {}
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
   }
 
   getRecipe(id: number) {
@@ -48,6 +33,7 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     recipe.id = this.recipes.length;
     this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
   }
 
   updateRecipe(recipe: Recipe) {
@@ -56,5 +42,6 @@ export class RecipeService {
     recipeToUpdate.imagePath = recipe.imagePath;
     recipeToUpdate.description = recipe.description;
     recipeToUpdate.ingredients = recipe.ingredients.slice();
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
